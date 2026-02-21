@@ -8,9 +8,7 @@ const noteSchema = z.object({
 })
 
 type Props = {
-  params: {
-    id: string;
-  }
+  params: Promise<{ id: string }>
 }
 
 //GET /api/notes 個別メモ取得

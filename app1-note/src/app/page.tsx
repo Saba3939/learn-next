@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button'
 import Link from "next/link";
+import toast from "react-hot-toast"
 
 type Note = {
   id: string;
@@ -39,6 +40,8 @@ export default function Home() {
       fetchNotes();
     } catch (error) {
       console.error("Failed to delete note:", error)
+    } finally {
+      toast.success("削除しました")
     }
   }
   if (loading) {
@@ -48,6 +51,7 @@ export default function Home() {
       </div>
     </main>
   }
+
   return (
     <main className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto max-w-4xl px-4">

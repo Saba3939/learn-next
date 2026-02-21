@@ -159,6 +159,7 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/<dbname>?schema=publ
    - ユーザー向けメッセージ・UI: 日本語
    - コード・技術用語・ログ: 英語
    - 説明・解説: 日本語
+6. エラーを解消するときはどこをどうすれば動くようになるのかを教えて
 
 ## 参考リソース
 
