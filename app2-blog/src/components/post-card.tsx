@@ -20,7 +20,7 @@ export const PostCard = ({ title, slug, excerpt, categoryName, publishedAt }: Po
         <CardDescription>{excerpt}</CardDescription>
       </CardHeader>
       <CardFooter className="justify-between">
-        <span>{publishedAt}</span>
+        <span>{publishedAt ? new Date(publishedAt).toLocaleDateString("ja-JP") : "未公開"}</span>
         <Link href={`/posts/${slug}`}>→続きを読む</Link>
       </CardFooter>
     </Card>
