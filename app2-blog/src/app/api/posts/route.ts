@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl;
     //ページネーションパラメータ
     const page = Math.max(1, Number(searchParams.get("page") ?? 1))
-    const limit = Math.min(100, Number(searchParams.get("limit") ?? 4))
+    const limit = Math.min(100, Number(searchParams.get("limit") ?? 1))
     //フィルタパラメータ
     const published = searchParams.get("published")
     const categoryId = searchParams.get("categoryId")
