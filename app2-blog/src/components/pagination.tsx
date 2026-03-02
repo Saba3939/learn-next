@@ -8,7 +8,12 @@ type PaginationProp = {
     totalCount: number
     totalPages: number
   }
-  categoryId?: string
+  basePath?: string
+  extraParams?: Record<string, string>
+}
+const buildHref = (page: number, basePath: string, extra: Record<string, string>) => {
+  const params = new URLSearchParams({ ...extra, page: String(page) })
+  return `${basePath}?${params}`
 }
 function getPageNumbers(current: number, total: number): (number | "...")[] {
   if (total <= 5) {
@@ -32,16 +37,14 @@ function getPageNumbers(current: number, total: number): (number | "...")[] {
   return pages
 }
 
-export const Pagination = ({ pagination, categoryId }: PaginationProp) => {
+export const Pagination = ({ pagination, basePath, extraParams }: PaginationProp) => {
   const pageNumbers = getPageNumbers(pagination.page, pagination.totalPages)
   return (
     <div className="flex gap-2 justify-center mt-8">
       {pagination.page <= 1 ?
         <Button disabled variant="ghost"><ChevronLeft /></Button>
         :
-        <Link
-          href={categoryId ? `/?page=${pagination.page - 1}&categoryId=${categoryId}` : `/?page=${pagination.page - 1}`}
-        >
+        <Link href={buildHref(pagination.page - 1, basePath ?? "/", extraParams ?? {})}>
           <Button variant="ghost"><ChevronLeft /></Button>
         </Link>
       }
@@ -49,7 +52,7 @@ export const Pagination = ({ pagination, categoryId }: PaginationProp) => {
         p === "..." ? (
           <span key={`ellipsis-${i}`} className="px-2 flex items-center text-muted-foreground">...</span>
         ) : (
-          <Link key={p} href={categoryId ? `/?page=${p}&categoryId=${categoryId}` : `/?page=${p}`}>
+          <Link key={p} href={buildHref(p, basePath ?? "/", extraParams ?? {})}>
             <Button variant={pagination.page === p ? "default" : "outline"}>{p}</Button>
           </Link>
         )
@@ -57,9 +60,7 @@ export const Pagination = ({ pagination, categoryId }: PaginationProp) => {
       {pagination.page >= pagination.totalPages ?
         <Button disabled variant="ghost"><ChevronRight /></Button>
         :
-        <Link
-          href={categoryId ? `/?page=${pagination.page - 1}&categoryId=${categoryId}` : `/?page=${pagination.page + 1}`}
-        >
+        <Link href={buildHref(pagination.page + 1, basePath ?? "/", extraParams ?? {})}>
           <Button variant="ghost"><ChevronRight /></Button>
         </Link>
       }

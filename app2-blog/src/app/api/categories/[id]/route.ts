@@ -10,7 +10,12 @@ export async function GET(_request: NextRequest, { params }: Props) {
   try {
     const { id } = await params;
     const category = await prisma.category.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        _count: {
+          select: { posts: true }
+        }
+      }
     })
 
     if (!category) {

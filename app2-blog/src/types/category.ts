@@ -1,6 +1,8 @@
 // src/types/category.ts
 import { Prisma } from "@/generated/prisma/client";
 
+export type Category = Prisma.CategoryGetPayload<Prisma.CategoryDefaultArgs>;
+
 export type CategoryWithCount = Prisma.CategoryGetPayload<{
   include: { _count: { select: { posts: true } } };
 }>;

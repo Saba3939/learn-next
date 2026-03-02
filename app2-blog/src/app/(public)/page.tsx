@@ -30,7 +30,7 @@ export default async function Home({ searchParams }: { searchParams: Props }) {
               <PostCard key={post.id} title={post.title} slug={post.slug} excerpt={post.excerpt} categoryName={post.category.name} publishedAt={post.publishedAt} />
             ))}
           </div>
-          <Pagination pagination={pagination} categoryId={categoryId} />
+          <Pagination pagination={pagination} basePath="/" extraParams={categoryId ? { categoryId } : {}} />
         </main>
         <aside className="w-48 shrink-0">
           <h2 className="font-semibold mb-4">カテゴリ</h2>
@@ -40,7 +40,7 @@ export default async function Home({ searchParams }: { searchParams: Props }) {
             </li>
             {categories.map((category) => (
               <li key={category.id}>
-                <Link href={`/?categoryId=${category.id}`}>{category.name}</Link>
+                <Link href={`/?categoryId=${category.id}`}>{category.name}({category._count.posts})</Link>
               </li>
             ))}
           </ul>
