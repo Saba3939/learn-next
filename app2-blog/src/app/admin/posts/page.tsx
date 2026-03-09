@@ -32,15 +32,29 @@ export default async function Page({ searchParams }: { searchParams: Props }) {
   const { page } = await searchParams;
   const params = new URLSearchParams();
   params.set("page", page ?? "1")
-  //投稿の取得
+  //投稿の取得・
   const postRes = await fetch(`http://localhost:3000/api/posts?${params}`);
   const { posts, pagination } = (await postRes.json()) as PostResponse
+
+  if (!posts) {
+    return (
+      <div className="max-w-5xl mx-auto mt-6 min-h-full">
+        <div className="justify-center items-center">
+          <p>記事がまだありません。最初の記事を作成してみましょう!</p>
+          <Button>新規記事作成作成</Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-5xl mx-auto mt-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">記事管理</h1>
-        <Button><PlusIcon />新規記事作成</Button>
+        <Button asChild>
+          <Link href="/admin/posts/create" className="flex items-center">
+            <PlusIcon />新規記事作成</Link>
+        </Button>
       </div>
       <Table >
         <TableHeader>
@@ -71,7 +85,7 @@ export default async function Page({ searchParams }: { searchParams: Props }) {
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" className="text-destructive hover:bg-destructive/10">
                       削除
                     </Button>
                   </AlertDialogTrigger>
